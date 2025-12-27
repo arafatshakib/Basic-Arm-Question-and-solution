@@ -1,0 +1,153 @@
+STM32F103C8T6 Configuration for STM32CubeIDE
+===========================================
+
+Project: CSE331_Final_Project
+MCU: STM32F103C8T6 (LQFP48 package)
+Description: Configuration for OLED (SSD1306 I2C), DHT11, HC-SR04, LED, and 4x4 keypad (keys '1', '2', '*')
+
+Pin Configuration
+----------------
+PA0: DHT11 Data
+  - Mode: GPIO Output Open-Drain
+  - Pull: No Pull-Up and No Pull-Down
+  - Speed: Low
+  - User Label: DHT11_DATA
+
+PA1: HC-SR04 Trig
+  - Mode: GPIO Output Push-Pull
+  - Pull: No Pull-Up and No Pull-Down
+  - Speed: Low
+  - User Label: HC_TRIG
+
+PA2: HC-SR04 Echo
+  - Mode: GPIO Input
+  - Pull: No Pull-Up and No Pull-Down
+  - User Label: HC_ECHO
+
+PA3: Keypad Row 1 (keys '1', '2')
+  - Mode: GPIO Output Push-Pull
+  - Pull: No Pull-Up and No Pull-Down
+  - Speed: Low
+  - User Label: KEYPAD_ROW1
+
+PA6: Keypad Row 4 (key '*')
+  - Mode: GPIO Output Push-Pull
+  - Pull: No Pull-Up and No Pull-Down
+  - Speed: Low
+  - User Label: KEYPAD_ROW4
+
+PA7: Keypad Column 1 (keys '1', '*')
+  - Mode: GPIO Input
+  - Pull: Pull-Up
+  - User Label: KEYPAD_COL1
+
+PA8: Keypad Column 2 (key '2')
+  - Mode: GPIO Input
+  - Pull: Pull-Up
+  - User Label: KEYPAD_COL2
+
+PB0: LED
+  - Mode: GPIO Output Push-Pull
+  - Pull: No Pull-Up and No Pull-Down
+  - Speed: Low
+  - User Label: LED
+
+PB6: I2C1 SCL (OLED)
+  - Mode: I2C1_SCL (Alternate Function Open-Drain)
+  - Pull: No Pull-Up and No Pull-Down
+  - Speed: High
+
+PB7: I2C1 SDA (OLED)
+  - Mode: I2C1_SDA (Alternate Function Open-Drain)
+  - Pull: No Pull-Up and No Pull-Down
+  - Speed: High
+
+I2C1 Configuration (for OLED SSD1306)
+------------------------------------
+- Enable: I2C1
+- I2C Speed: Fast Mode (400 kHz)
+- Duty Cycle: 2
+- Addressing Mode: 7-bit
+- Own Address 1: 0 (disabled)
+- Dual Address Mode: Disabled
+- General Call Mode: Disabled
+- No Stretch Mode: Disabled
+
+TIM2 Configuration (for HC-SR04)
+-------------------------------
+- Enable: TIM2
+- Clock Source: Internal Clock
+- Prescaler: 71 (for 1us tick at 72 MHz)
+- Counter Mode: Up
+- Period: 65535 (max for 16-bit timer)
+- Clock Division: DIV1
+- Master Output Trigger: Reset
+- Master/Slave Mode: Disabled
+
+Clock Configuration
+-------------------
+- HSE: Enabled (External High-Speed Clock, typically 8 MHz)
+- PLL Source: HSE
+- PLL MUL: x9 (for 72 MHz system clock)
+- APB1 Prescaler: /2 (36 MHz for TIM2)
+- APB2 Prescaler: /1 (72 MHz for GPIO, I2C)
+- System Clock: 72 MHz (PLLCLK)
+
+System Core
+-----------
+- RCC:
+  - High-Speed Clock (HSE): Crystal/Ceramic Resonator
+- SYS:
+  - Debug: Serial Wire (for ST-Link debugging)
+
+Hardware Connections
+--------------------
+- OLED (SSD1306):
+  - PB6: SCL
+  - PB7: SDA
+  - VCC: 3.3V
+  - GND: Ground
+- DHT11:
+  - PA0: Data (add 4.7k pull-up to 5V if not built-in)
+  - VCC: 5V
+  - GND: Ground
+- HC-SR04:
+  - PA1: Trig
+  - PA2: Echo (use 1k-2k resistor voltage divider for 5V to 3.3V)
+  - VCC: 5V
+  - GND: Ground
+- Keypad (4x4, limited to '1', '2', '*'):
+  - PA3: Row 1 (keys '2')
+  - PA4: Row 2 (key '5')
+  - PA5: Row 3 (keys 8, )
+  - PA8: Column 2
+- LED:
+  - PB0: Anode
+  - Cathode: GND via 220-330 ohm resistor
+
+Project Manager Settings
+-----------------------
+- Code Generator:
+  - Generate peripheral initialization as '.c/.h' files per peripheral: Enabled
+  - Keep user code sections: Enabled
+- Advanced Settings:
+  - GPIO: HAL
+  - I2C: HAL
+  - TIM2: HAL
+
+Instructions
+------------
+1. Open STM32CubeIDE and load the project (CSE331_Final_Project).
+2. Open the .ioc file (e.g., CSE331_Final_Project.ioc).
+3. Configure pins and peripherals as listed above in the Pinout & Configuration tab.
+4. Set clock configuration in the Clock Configuration tab.
+5. Save the .ioc file and click "Generate Code".
+6. Ensure main.c, fonts.h, fonts.c, ssd1306.h, and ssd1306.c are updated as per provided code.
+7. Clean and rebuild the project (Project > Clean, then Project > Build Project).
+8. Flash the code to the STM32F103C8T6 using an ST-Link programmer.
+9. Verify functionality:
+   - OLED displays "1: DHT11  2: Sonar".
+   - Press '1' for DHT11 temperature/humidity.
+   - Press '2' for HC-SR04 distance.
+   - Press '*' to return to menu.
+   - LED (PB0) ON, blinks twice during sensor readings.
