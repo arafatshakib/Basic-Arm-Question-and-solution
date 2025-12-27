@@ -1,9 +1,0 @@
-../Core/Src/ssd1306.c:8:19:SSD1306_WriteCommand	1
-../Core/Src/ssd1306.c:13:9:SSD1306_Test_Connection	3
-../Core/Src/ssd1306.c:27:9:SSD1306_Init	2
-../Core/Src/ssd1306.c:58:6:SSD1306_Clear	2
-../Core/Src/ssd1306.c:64:6:SSD1306_Display	3
-../Core/Src/ssd1306.c:76:6:SSD1306_DrawPixel	4
-../Core/Src/ssd1306.c:85:6:SSD1306_SetCursor	1
-../Core/Src/ssd1306.c:90:6:SSD1306_WriteChar	6
-../Core/Src/ssd1306.c:115:6:SSD1306_WriteString	2
